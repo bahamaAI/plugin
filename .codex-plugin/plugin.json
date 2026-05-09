@@ -23,12 +23,15 @@
     "displayName": "Bahama",
     "shortDescription": "Seamlessly build, test, provision, and deploy real apps.",
     "longDescription": "Bahama is the agent-first cloud platform that gives Codex the power to seamlessly build, test, provision, and deploy real apps to the web.",
+    "defaultPrompt": [
+      "Help me build and deploy a web app using Bahama. I want to create an app that [describe]. Create a new project in Bahama, setup the project, write the code, and deploy it to the web."
+    ],
     "developerName": "Bahama",
     "category": "Developer Tools",
     "capabilities": ["Interactive", "Read", "Write"],
     "websiteURL": "https://bahama.ai",
     "brandColor": "#0EAE9A",
-    "composerIcon": "./assets/icon.png",
-    "logo": "./assets/icon.png"
+    "composerIcon": "./assets/icon-black.svg",
+    "logo": "./assets/icon.svg"
   }
 }
