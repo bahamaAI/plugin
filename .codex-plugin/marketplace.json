@@ -7,8 +7,9 @@
     {
       "name": "bahama",
       "source": {
-        "source": "local",
-        "path": "./"
+        "source": "url",
+        "url": "https://github.com/bahamaAI/plugin.git",
+        "ref": "main"
       },
       "policy": {
         "installation": "AVAILABLE",
