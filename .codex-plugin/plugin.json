@@ -31,7 +31,7 @@
     "capabilities": ["Interactive", "Read", "Write"],
     "websiteURL": "https://bahama.ai",
     "brandColor": "#0EAE9A",
-    "composerIcon": "./assets/icon-black.svg",
+    "composerIcon": "./assets/icon-small.svg",
     "logo": "./assets/icon.svg"
   }
 }
