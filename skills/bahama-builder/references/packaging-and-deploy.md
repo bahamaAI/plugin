@@ -36,6 +36,18 @@ my-project/package.json
 
 Bahama strips a single wrapper directory in some cases, but do not rely on that when creating archives.
 
+## Upload Mechanics
+
+Use the `uploadUrl` exactly as returned. PUT the zip with `Content-Type: application/zip` and the file body only. Do not copy signed query parameters such as `x-amz-checksum-crc32` or `x-amz-sdk-checksum-algorithm` into request headers; doing so can cause R2/S3 signature verification to fail with `SignatureDoesNotMatch`.
+
+Reference invocation:
+
+```bash
+curl -X PUT "$UPLOAD_URL" \
+  -H "Content-Type: application/zip" \
+  --data-binary @bundle.zip
+```
+
 ## Always Exclude
 
 - `node_modules/`

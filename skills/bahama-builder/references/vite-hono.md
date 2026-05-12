@@ -2,13 +2,13 @@
 
 Use `vite-hono` for full-stack Bahama apps: a Vite frontend served as static assets plus a Workers-compatible Hono backend for `/api/*` routes.
 
-Read this file when choosing or implementing the `vite-hono` deployment type. For detailed D1, SQL, secrets, or local testing guidance, read `database-and-sql.md`, `secrets.md`, or `local-development.md`.
+Read this file when choosing or implementing the `vite-hono` deployment type. For detailed database, SQL, secrets, or local testing guidance, read `database-and-sql.md`, `secrets.md`, or `local-development.md`.
 
 ## When To Use
 
 Use `vite-hono` when the app needs any of these:
 
-- persistent data through Bahama-managed D1
+- persistent data through a Bahama-managed database
 - server-side API keys or third-party provider secrets
 - AI provider calls that must not expose keys to browser code
 - webhooks or JSON API routes
@@ -27,6 +27,7 @@ The project must include:
 - `src/`
 - Vite dependency
 - Hono dependency
+- `@bahama-ai/sdk` dependency when using Bahama database types, `getDb`, or local database testing
 - build script
 - deployable backend entry at `server/index.ts`, `server/index.js`, `server/index.mts`, or `server/index.tsx`
 
@@ -40,7 +41,7 @@ Use Vite as the frontend build system.
 - Keep the HTML entry at project-root `index.html`.
 - Use normal Vite scripts, usually `dev`, `build`, and optionally `preview`.
 - Keep frontend environment variables public-only; Vite exposes `VITE_*` variables to browser code.
-- Do not put private provider keys, Bahama dev tokens, D1 details, or deployment credentials in `VITE_*` variables.
+- Do not put private provider keys, Bahama dev tokens, database details, or deployment credentials in `VITE_*` variables.
 - Let Bahama build the app. Do not package prebuilt output for this type.
 
 For React, create or migrate to a Vite React app. This is the supported React path.
@@ -50,8 +51,8 @@ For React, create or migrate to a Vite React app. This is the supported React pa
 Before coding or deploying, ensure that the Bahama project metadata matches the architecture with MCP `bahama_get_project` and `bahama_update_project`
 
 - Set backend to `hono` for `vite-hono`.
-- Enable D1 only when the app needs persistent data.
-- Provision D1 before writing or deploying code that expects `env.DB`.
+- Enable the database only when the app needs persistent data.
+- Provision the database before writing or deploying code that expects `env.DB`.
 - Package and deploy according to this `vite-hono` contract.
 
 Do not ask the user for credentials, database URLs, hosts, passwords, or connection strings. Bahama binds managed resources into the deployed Worker.
@@ -95,7 +96,7 @@ Allowed in `server/index.*`:
 - `import {Hono} from "hono"`
 - `export default app`
 - route handlers under `/api/*`
-- access to D1 through `c.env.DB` or `getDb(c.env)`
+- access to the Bahama database through `c.env.DB` or `getDb(c.env)`
 - access to project secrets through `c.env.SECRET_NAME`
 
 Not allowed in `server/index.*`:
@@ -114,10 +115,11 @@ Minimal deployable Hono entry:
 
 ```ts
 import {Hono} from "hono";
+import type {BahamaDatabase} from "@bahama-ai/sdk/server";
 
 type Env = {
   Bindings: {
-    DB?: D1Database;
+    DB?: BahamaDatabase;
     OPENAI_API_KEY?: string;
   };
 };
@@ -137,7 +139,7 @@ export default app;
 
 ## Conditional Details
 
-- If adding SQL, persistent CRUD, migrations, seed data, or D1 access, read the database/SQL reference before writing code.
+- If adding SQL, persistent CRUD, migrations, seed data, or database access, read the database/SQL reference before writing code.
 - If adding third-party API keys or server-side credentials, read the secrets reference before writing code.
 - If setting up local Hono development against Bahama-managed resources, read the local testing reference before creating dev tokens or `.env.local`.
 

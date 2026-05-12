@@ -1,13 +1,13 @@
 # Database And SQL
 
-Use this file before adding D1, SQL tables, migrations, seed data, or persistent CRUD behavior.
+Use this file before adding SQL tables, migrations, seed data, or persistent CRUD behavior.
 
-Bahama-managed D1 is a runtime binding for server-side Worker/Hono code. Browser code must never talk to D1 directly.
+Bahama-managed SQL is a runtime binding for server-side Worker/Hono code. Browser code must never talk to the database directly.
 
 ## Setup Order
 
 1. Decide whether persistence is actually needed.
-2. Update the Bahama project so D1 is enabled.
+2. Update the Bahama project so the database is enabled.
 3. Provision the database through Bahama MCP.
 4. Write server-side Hono routes that use the database binding.
 5. Run schema setup or migrations deliberately.
@@ -17,17 +17,17 @@ Do not ask the user for a database URL, host, password, username, or connection 
 
 ## Runtime Access
 
-In deployed Worker/Hono code, D1 is usually available as `env.DB`.
+In deployed Worker/Hono code, the database is usually available as `env.DB`.
 
 For code that also needs local testing through Bahama's dev proxy, prefer `@bahama-ai/sdk/server` and `getDb(c.env)`. See `/references/local-development.md` for details.
 
 ```ts
 import {Hono} from "hono";
-import {getDb} from "@bahama-ai/sdk/server";
+import {getDb, type BahamaDatabase} from "@bahama-ai/sdk/server";
 
 type Env = {
   Bindings: {
-    DB?: D1Database;
+    DB?: BahamaDatabase;
     BAHAMA_API_BASE_URL?: string;
     BAHAMA_PROJECT_SLUG?: string;
     BAHAMA_DEV_TOKEN?: string;
@@ -50,6 +50,9 @@ export default app;
 
 If local testing is not needed, direct `c.env.DB` access is acceptable in deployable Hono code.
 
+Use the `BahamaDatabase` type exported by `@bahama-ai/sdk/server`. Do not install
+provider-specific Worker type packages just to type Bahama's database binding.
+
 ## Schema Setup
 
 Create tables deliberately before relying on them in app routes. Prefer running setup or migration SQL through Bahama MCP so schema changes are explicit and visible.
@@ -57,7 +60,7 @@ Create tables deliberately before relying on them in app routes. Prefer running 
 For small prototypes, it is acceptable to add an idempotent setup helper that uses `CREATE TABLE IF NOT EXISTS` before reads or writes. Keep that helper narrow, safe to run repeatedly, and limited to the tables the route actually needs.
 
 ```ts
-async function ensureNotesTable(db: D1Database) {
+async function ensureNotesTable(db: BahamaDatabase) {
   await db
     .prepare(
       `CREATE TABLE IF NOT EXISTS notes (

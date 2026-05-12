@@ -1,12 +1,12 @@
 # Local Development
 
-Use this file before setting up local Hono development, live Bahama-managed D1 access, dev tokens, `.env.local`, or Vite-to-Hono API proxying.
+Use this file before setting up local Hono development, live Bahama-managed database access, dev tokens, `.env.local`, or Vite-to-Hono API proxying.
 
 Local setup is optional. Do it when the user wants to run the app locally or when validating server-side behavior before deploy.
 
 ## Why The SDK Exists
 
-Bahama-managed runtime resources are Worker bindings. In production, deployed Worker/Hono code can read bindings such as `env.DB` directly. In local Node or Vite development, those bindings do not exist, so code cannot directly access Bahama-managed D1 the same way it does after deployment.
+Bahama-managed runtime resources are Worker bindings. In production, deployed Worker/Hono code can read bindings such as `env.DB` directly. In local Node or Vite development, those bindings do not exist, so code cannot directly access the Bahama-managed database the same way it does after deployment.
 
 The Bahama SDK bridges that gap for local server-side code. It uses a project-scoped dev token to proxy local database calls through Bahama to the live Bahama-managed resource. This means local testing can touch live project data. Avoid destructive operations and test-data pollution unless the user explicitly approves them.
 
@@ -37,7 +37,7 @@ Do not:
 Install the Bahama SDK when local server-side code needs Bahama-managed resources:
 
 ```bash
-npm install @bahama-ai/sdk@alpha
+npm install @bahama-ai/sdk
 ```
 
 Use `@bahama-ai/sdk/server` from server-side code only.
@@ -46,7 +46,7 @@ Use `@bahama-ai/sdk/server` from server-side code only.
 import {getDb} from "@bahama-ai/sdk/server";
 ```
 
-In deployed Worker code, the SDK can use native `env.DB`. In local code, it uses the Bahama dev proxy values from `.env.local`.
+In deployed Bahama app code, the SDK can use `env.DB`. In local code, it uses the Bahama dev proxy values from `.env.local`.
 
 ## Local Hono Adapter
 

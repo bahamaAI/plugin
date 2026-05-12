@@ -31,13 +31,13 @@ Before changing code or resources:
 5. If no Bahama project exists, confirm a new name with the user (lowercase slug with only letters, numbers, and dashes). Choose the deployment type, create the Bahama project via the MCP tool `bahama_create_project` with all required parameters, then create `bahama.json` once successful.
 6. Begin building the app according to the selected deployment type, the rules of this skill, and the user's requirements.
 
-Never deploy, provision D1, create dev tokens, query SQL, or direct the user to add project secrets until the slug has been resolved and confirmed.
+Never deploy, provision a database, create dev tokens, query SQL, or direct the user to add project secrets until the slug has been resolved and confirmed.
 
 ## Bahama MCP Server
 
 Use the Bahama MCP server as the system of action. It should be installed and authenticated before going further.
 
-The MCP tools enable you to act on the user's Bahama account to get, create, and update projects; provision and manage D1 databases; enable local testing of remote resources; and manage the deployment process that puts code live on `https://<slug>.bahama.app` or a custom domain.
+The MCP tools enable you to act on the user's Bahama account to get, create, and update projects; provision and manage Bahama databases; enable local testing of remote resources; and manage the deployment process that puts code live on `https://<slug>.bahama.app` or a custom domain.
 
 Always use the MCP server to interact with the user's Bahama projects. If the MCP tools are missing, stop and explain that the Bahama MCP connection is incomplete. Do not invent auth, bypass OAuth, or ask for credentials directly.
 
@@ -45,7 +45,7 @@ Always use the MCP server to interact with the user's Bahama projects. If the MC
 
 Choose one supported deployment type before coding.
 
-- `vite-hono`: Vite frontend plus Workers-compatible Hono backend on `/api/*`. Default for full-stack apps, CRUD apps, D1-backed apps, webhooks, AI/provider calls, and apps needing server-side secrets. Read `references/vite-hono.md`.
+- `vite-hono`: Vite frontend plus Workers-compatible Hono backend on `/api/*`. Default for full-stack apps, CRUD apps, database-backed apps, webhooks, AI/provider calls, and apps needing server-side secrets. Read `references/vite-hono.md`.
 - `vite-spa`: Vite frontend only. Use for browser-only React, Vue, Svelte, Preact, Solid, or vanilla Vite apps with no DB, no server-side secrets, and no backend routes. Read `references/static-deployments.md`.
 - `static-site`: Raw HTML/CSS/JS with no package install and no build step. Use for simple browser-only sites. Read `references/static-deployments.md`.
 - `static-bundle`: Already-built static assets with `index.html` at root, `dist/`, `build/`, or `public/`. Use when another tool already produced deployable output. Read `references/static-deployments.md`.
@@ -55,9 +55,9 @@ For React, use Vite. Do not use Next.js, Remix, Nuxt, custom Webpack, Express, N
 
 ## Data Rule
 
-Bahama-managed D1 is available only to server-side Worker/Hono code. Browser code must call backend routes. Never ask the user for a database URL, host, password, or connection string.
+Bahama-managed databases are available only to server-side Worker/Hono code. Browser code must call backend routes. Never ask the user for a database URL, host, password, or connection string.
 
-If adding SQL, D1 tables, migrations, seed data, or persistent CRUD behavior, read `references/database-and-sql.md` before writing code.
+If adding SQL tables, migrations, seed data, or persistent CRUD behavior, read `references/database-and-sql.md` before writing code.
 
 ## Secrets Rule
 
@@ -69,7 +69,7 @@ If adding provider keys, OAuth client secrets, webhook signing secrets, or local
 
 Bahama local testing can use live Bahama-managed resources through dev tokens and `@bahama-ai/sdk/server`. Dev tokens and secret values are server-side local configuration only.
 
-If setting up local Hono development, local D1 access, Vite API proxying, or `.env.local`, read `references/local-development.md`.
+If setting up local Hono development, local database access, Vite API proxying, or `.env.local`, read `references/local-development.md`.
 
 ## Deployment Workflow
 
@@ -78,8 +78,8 @@ Use this order:
 1. Confirm MCP tools and auth.
 2. Load or create the Bahama project.
 3. Choose the deployment type and read the matching reference file.
-4. Update project metadata before coding when backend or D1 needs are known.
-5. Provision D1 only if the app needs persistence.
+4. Update project metadata before coding when backend or database needs are known.
+5. Provision a database only if the app needs persistence.
 6. Add secrets through the dashboard path when server-side credentials are needed.
 7. Build or adjust the app to the selected Bahama contract.
 8. Package the archive according to the deployment type.
@@ -92,7 +92,7 @@ Read `references/packaging-and-deploy.md` before zipping, uploading, starting de
 - Keep generated apps within the selected Bahama deployment type.
 - Keep frontend code separate from server-only resource access.
 - Use relative frontend API paths like `/api/notes` for Bahama backend routes.
-- Do not expose D1, dev tokens, project secrets, provider keys, or credentials to browser code.
+- Do not expose databases, dev tokens, project secrets, provider keys, or credentials to browser code.
 - Do not add provider-specific deployment config to the app unless Bahama explicitly supports it.
 - Do not rely on unsupported backend formats or long-running Node server processes.
 - Prefer this skill's Bahama contract and the selected reference file over stale local assumptions.
@@ -102,7 +102,7 @@ Read `references/packaging-and-deploy.md` before zipping, uploading, starting de
 - `references/vite-hono.md`: Read for Vite frontend plus Hono backend apps.
 - `references/static-deployments.md`: Read for `static-site`, `static-bundle`, and `vite-spa`.
 - `references/hono-api.md`: Read for backend-only Hono API deployments.
-- `references/database-and-sql.md`: Read before adding D1, SQL, migrations, seed data, or persistent CRUD.
+- `references/database-and-sql.md`: Read before adding SQL, migrations, seed data, or persistent CRUD.
 - `references/secrets.md`: Read before using server-side provider credentials or local secret values.
 - `references/local-development.md`: Read before using dev tokens, `@bahama-ai/sdk`, `.env.local`, or local Hono/Vite API proxying.
 - `references/packaging-and-deploy.md`: Read before creating deploy archives or troubleshooting deploy jobs.

@@ -60,7 +60,7 @@ OPENAI_API_KEY=...
 STRIPE_SECRET_KEY=...
 ```
 
-If local code also needs live Bahama-managed D1, `.env.local` may include the dev-token values returned by `bahama_create_dev_token`:
+If local code also needs the live Bahama-managed database, `.env.local` may include the dev-token values returned by `bahama_create_dev_token`:
 
 See `/references/local-development.md` for details.
 

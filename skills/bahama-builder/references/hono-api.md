@@ -11,6 +11,7 @@ The project must include:
 - `package.json`
 - one lockfile: `package-lock.json`, `pnpm-lock.yaml`, or `yarn.lock`
 - Hono dependency
+- `@bahama-ai/sdk` dependency when using Bahama database types, `getDb`, or local database testing
 - deployable backend entry at `server/index.ts`, `server/index.js`, `server/index.mts`, or `server/index.tsx`
 
 No `index.html`, `src/`, or static frontend assets are required.
@@ -24,7 +25,7 @@ Allowed in `server/index.*`:
 - `import {Hono} from "hono"`
 - `export default app`
 - route handlers for API paths
-- D1 access through `c.env.DB` or `getDb(c.env)`
+- Bahama database access through `c.env.DB` or `getDb(c.env)`
 - secret access through `c.env.SECRET_NAME`
 
 Not allowed in `server/index.*`:
@@ -47,10 +48,11 @@ Minimal API:
 
 ```ts
 import {Hono} from "hono";
+import type {BahamaDatabase} from "@bahama-ai/sdk/server";
 
 type Env = {
   Bindings: {
-    DB?: D1Database;
+    DB?: BahamaDatabase;
     OPENAI_API_KEY?: string;
   };
 };
@@ -66,7 +68,7 @@ export default app;
 
 ## Data And Secrets
 
-If the API uses SQL, D1 tables, migrations, seed data, or persistent CRUD, read `database-and-sql.md`.
+If the API uses SQL tables, migrations, seed data, or persistent CRUD, read `database-and-sql.md`.
 
 If the API uses provider keys, webhook signing secrets, OAuth client secrets, or local secret values, read `secrets.md`.
 
