@@ -1,7 +1,7 @@
 {
   "name": "bahama",
   "description": "Bahama is the agent-first cloud platform that gives Codex the power to seamlessly build, test, provision, and deploy real apps to the web.",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "author": {
     "name": "Bahama"
   },

@@ -2,7 +2,7 @@
   "name": "bahama",
   "displayName": "Bahama",
   "description": "Bahama is the agent-first cloud platform that gives Cursor the power to seamlessly build, test, provision, and deploy live apps to the web.",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "author": {
     "name": "Bahama"
   },
